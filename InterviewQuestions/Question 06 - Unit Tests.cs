@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Moq;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,5 +33,39 @@ namespace InterviewQuestions
     public interface IQuestion6Dependency
     {
         string GetValueFromDatabase();
+    }
+
+    public class Question6Tests
+    {
+        private Question6 _subject;
+        private Mock<IQuestion6Dependency> _dependency;
+        private string _dbValue => "ThisStringHasOver6Digits";
+
+        [SetUp]
+        public void Setup()
+        {
+            _dependency = new Mock<IQuestion6Dependency>();
+            _dependency.Setup(c => c.GetValueFromDatabase()).Returns(_dbValue);
+
+            _subject = new Question6(_dependency.Object);
+        }
+
+        [Test]
+        public void GetFirstSixCharactersOfDatabaseValue_GetsValueFromDatabase()
+        {
+            _subject.GetFirstSixCharactersOfDatabaseValue();
+
+            _dependency.Verify(c => c.GetValueFromDatabase(), Times.Once);
+        }
+
+        [Test]
+        public void GetFirstSixCharactersOfDatabaseValue_OnlyReturnsFirstSixDigits()
+        {
+            var expectedResult = _dbValue.Substring(0, 6);
+
+            var ActualResult = _subject.GetFirstSixCharactersOfDatabaseValue();
+
+            Assert.That(ActualResult, Is.EqualTo(expectedResult));
+        }
     }
 }

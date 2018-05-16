@@ -28,39 +28,27 @@ namespace InterviewQuestions
 
         public string GetResult()
         {
-            string resultToReturnToUser = string.Empty;
-
-            if (_initializationChecker.DidSucceed())
+            if (!_initializationChecker.DidSucceed())
             {
-                if (_nullChecker.DidSucceed())
-                {
-                    if (_dataEntryValidation.DidSucceed())
-                    {
-                        if (_databaseValiator.DidSucceed())
-                        {
-                            resultToReturnToUser = "validated";
-                        }
-                        else
-                        {
-                            resultToReturnToUser = "Could not validate database";
-                        }
-                    }
-                    else
-                    {
-                        resultToReturnToUser = "Could not validate data entry";
-                    }
-                }
-                else
-                {
-                    resultToReturnToUser = "Could not validate nulls";
-                }
-            }
-            else
-            {
-                resultToReturnToUser = "Entry did not pass initial validation";
+                return "Entry did not pass initial validation";
             }
 
-            return resultToReturnToUser;
+            if (!_nullChecker.DidSucceed())
+            {
+                return "Could not validate nulls";
+            }
+
+            if (!_dataEntryValidation.DidSucceed())
+            {
+                return "Could not validate data entry";
+            }
+
+            if (!_databaseValiator.DidSucceed())
+            {
+                return "Could not validate database";
+            }
+
+            return "validated";
         }
 
         private interface ISuccessChecker

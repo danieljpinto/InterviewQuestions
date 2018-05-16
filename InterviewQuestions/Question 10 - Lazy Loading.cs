@@ -12,16 +12,36 @@ namespace InterviewQuestions
     /// </summary>
     public class Question10
     {
-        public IMemoryHeavyThing MemoryHeavyThing { get; set; }
+        private IMemoryHeavyThing _memoryHeavyThing;
+        public IMemoryHeavyThing MemoryHeavyThing
+        {
+            get
+            {
+                if (_memoryHeavyThing == null)
+                {
+                    _memoryHeavyThing = GetMemoryHeavyThing();
+                }
+                return _memoryHeavyThing;
+            }
+            set
+            {
+                _memoryHeavyThing = value;
+            }
+        }
 
         public Question10()
         {
-            
+
+        }
+
+        public IMemoryHeavyThing GetMemoryHeavyThing()
+        {
+            throw new NotImplementedException();
         }
 
         public interface IMemoryHeavyThing
         {
-            
-        }
+
+        }        
     }
 }

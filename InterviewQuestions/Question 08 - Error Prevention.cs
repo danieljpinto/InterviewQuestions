@@ -7,7 +7,7 @@
     {
         public void CauseStackOverflowException()
         {
-            
+            CauseStackOverflowException();
         }
     }
 }

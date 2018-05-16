@@ -13,7 +13,15 @@ namespace InterviewQuestions
     {
         public void SwitchNumbers(int firstNumber, int secondNumber)
         {
-            
+            //3, 6
+
+            secondNumber = secondNumber + firstNumber; // 3, 9
+
+            firstNumber = firstNumber - secondNumber; // -6, 9
+
+            secondNumber = secondNumber - firstNumber; // -6, 3
+
+            firstNumber = 0 - firstNumber; // 6, 3
         }
     }
 }

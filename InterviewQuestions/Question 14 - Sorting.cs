@@ -24,7 +24,18 @@ namespace InterviewQuestions
 
         public void Answer()
         {
-            
+            for (int i = 0; i < Numbers.Count; i++)
+            {
+                for (int j = 0; j < Numbers.Count; j++)
+                {
+                    if (Numbers[i] > Numbers[j])
+                    {
+                        var temp = Numbers[j];
+                        Numbers[j] = Numbers[i];
+                        Numbers[i] = temp;
+                    }
+                }
+            }
         }
     }
 }

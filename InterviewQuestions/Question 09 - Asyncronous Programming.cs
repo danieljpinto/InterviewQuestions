@@ -7,6 +7,8 @@ namespace InterviewQuestions
     /// 
     /// 
     /// Answer:
+    /// an async task will run that will be executed potentially before the result has been fetched. The user here should either turn DoWork into an async method and await GetObjectByIdAsync
+    /// Or they should add a new line in line 26 saying dbObject.Wait();
     /// 
     /// </summary>
     public class Question9

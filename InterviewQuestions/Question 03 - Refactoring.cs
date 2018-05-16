@@ -23,24 +23,54 @@ namespace InterviewQuestions
 
         public string GetString(string theInput)
         {
-            string response = _service.AskForPermission();
-            switch (response)
+            var response = _service.AskForPermission();
+
+            if (response.ResponseCode == ResponseCode.Success)
             {
-                case "FAIL":
-                    return "error";
-                case "OK":
-                    return String.Format("{0} {1}", theInput, theInput);
-                default:
-                    return null;
+                return String.Format("{0} {1}", theInput, theInput);
             }
+
+            return response.ErrorMessage;
         }
 
         private class Service
         {
-            internal string AskForPermission()
+            internal PermissionsResponse AskForPermission()
             {
                 throw new NotImplementedException();
             }
+        }
+
+        private class PermissionsResponse
+        {
+            public ResponseCode ResponseCode { get; private set; }
+            public string ErrorMessage { get; private set; }
+
+            private PermissionsResponse(ResponseCode responseCode)
+            {
+                ResponseCode = responseCode;
+            }
+            private PermissionsResponse(ResponseCode responseCode, string errorMessage)
+            {
+                ResponseCode = responseCode;
+                ErrorMessage = errorMessage;
+            }
+
+            public static PermissionsResponse Success()
+            {
+                return new PermissionsResponse(ResponseCode.Success);
+            }
+
+            public static PermissionsResponse Failure(string errorMessage)
+            {
+                return new PermissionsResponse(ResponseCode.Failure, errorMessage);
+            }
+        }
+
+        private enum ResponseCode
+        {
+            Success = 1,
+            Failure = 2
         }
     }
 }

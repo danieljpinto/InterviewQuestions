@@ -14,13 +14,13 @@ namespace InterviewQuestions
     {
         public string GetEngineManufacturer()
         {
-            // answer here
-
+            var car = new Car();
+            return car.Engine.Manufacturer;
         }
 
         private class Car
         {
-
+            public Engine Engine { get; set; }
         }
 
         private class Engine

@@ -31,9 +31,30 @@ namespace InterviewQuestions
 
         public void Process()
         {
-
+            using (var session = _db.OpenSession())
+            {
+                // split methods out to adhere to SRP
+                var items = GetItemsToUpdate(session);
+                UpdateAll(items);    
+                session.SaveChanges();
+            }
         }
 
+        private void UpdateAll(IQueryable<IEntity> items)
+        {
+            foreach (var item in items)
+            {
+                item.LastUpdated = DateTime.UtcNow;
+                item.Name += "- done";
+            }
+        }
+
+        private IQueryable<IEntity> GetItemsToUpdate(ISession<IEntity> session)
+        {
+            var oneWeekAgo = DateTime.UtcNow.AddDays(-7);
+
+            return session.GetObjects().Where(c => c.LastUpdated < oneWeekAgo);
+        }
 
         #region Set Up Classes - Please look
 

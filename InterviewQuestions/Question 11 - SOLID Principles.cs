@@ -29,7 +29,20 @@ namespace InterviewQuestions
 
         public void Process()
         {
+            using (var session = _db.OpenSession())
+            {
+                var oneWeekAgo = DateTime.UtcNow.AddDays(-7);
 
+                var itemsToProcess = session.GetObjects().Where(c => c.LastUpdated < oneWeekAgo);
+
+                foreach (var item in itemsToProcess)
+                {
+                    item.LastUpdated = DateTime.UtcNow;
+                    item.Name += "- done";
+                }
+
+                session.SaveChanges();
+            }
         }
 
         #region Set Up Classes - Please look

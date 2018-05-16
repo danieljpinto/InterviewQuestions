@@ -24,24 +24,13 @@ namespace InterviewQuestions
     {
         public List<int> GetIntValuesFromStrings(List<string> entities)
         {
-            var firstCharacters = new List<string>();
-            foreach (var entity in entities)
+            return entities.Where(c =>
             {
-                firstCharacters.Add(entity.Substring(0, 2));
-            }
-
-            var parsedEntities = new List<int>();
-
-            foreach (var entity in firstCharacters)
-            {
-                int parsedValue;
-                if (int.TryParse(entity, out parsedValue))
-                {
-                    parsedEntities.Add(parsedValue);
-                }
-            }
-            
-            return parsedEntities;
+                int number;
+                return int.TryParse(c.Substring(0, 2), out number);
+            })
+            .Select(c => int.Parse(c.Substring(0, 2)))
+            .ToList();
         }
     }
 }
